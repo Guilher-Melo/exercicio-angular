@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body ng-app="myApp">
+  <div class="container">
+    <h1>Lista de Tarefas</h1>
+    <div ng-controller="ControladorTarefas">
+      <input type="text" ng-model="novaTarefa" />
+      <button ng-click="addTarefa()" class="btn-add">Adicionar Tarefa</button>
+      <div class="tarefas">
+        <ul>
+          <li ng-repeat="tarefa in tarefas" class="tarefa">
+            <span ng-if="!tarefa.concluida">{{ tarefa.nome }}</span>
+            <span ng-if="tarefa.concluida" style="text-decoration: line-through;">{{ tarefa.nome }}</span>
+            <button ng-click="remTarefa($index)" class="btn-excluir">Excluir tarefa</button>
+            <button ng-click="marcarConcluida($index)" class="btn-conc">Tarefa concluída</button>
+          </li>
+      </div>
+      </ul>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+      let app = angular.module('myApp', []);
+      app.controller('ControladorTarefas', function ($scope) {
+        $scope.tarefas = [];
+        $scope.addTarefa = function () {
+          $scope.tarefas.push({ nome: $scope.novaTarefa });
+          $scope.novaTarefa = '';
+        };
+
+        $scope.remTarefa = function(index) {
+          $scope.tarefas.splice(index, 1);
+        };
+
+        $scope.marcarConcluida = function(index) {
+          $scope.tarefas[index].concluida = !$scope.tarefas[index].concluida;
+        };
+      });
+    </script>
+</body>
+
+</html>
